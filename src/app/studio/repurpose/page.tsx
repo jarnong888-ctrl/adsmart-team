@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import { SubmitButton } from "@/components/submit-button";
 import { prisma } from "@/lib/db";
+import { LANG_NAME } from "@/lib/display";
 import { pillarLabel, tr, type Locale } from "@/lib/i18n";
 import { repurposeItem } from "@/server/studio-actions";
 import { markDesk } from "@/server/audit";
@@ -56,7 +57,7 @@ export default async function RepurposePage({
               <li key={item.id} className="flex flex-wrap items-center gap-4 px-5 py-4">
                 <div className="min-w-0 flex-1 basis-64">
                   <Link href={`/studio/pipeline/${item.id}`} className="font-cjk block text-[15px] font-medium leading-snug hover:text-[#0F6B4F]">{item.title}</Link>
-                  <p className="mt-1 text-[12.5px] text-[#5E6B65]">{pillarLabel(locale, item.pillar)} · {item.language.toUpperCase()}</p>
+                  <p className="mt-1 text-[12.5px] text-[#5E6B65]">{pillarLabel(locale, item.pillar)} · {LANG_NAME[item.language] ?? item.language.toUpperCase()}</p>
                 </div>
                 <form action={repurposeItem}>
                   <input type="hidden" name="itemId" value={item.id} />

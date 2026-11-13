@@ -29,8 +29,10 @@ export default async function CreditsPage({
   const labels = new Map(costs.map((row) => [row.action, label(row)]));
   const spent = usage.reduce((sum, row) => sum + row.credits, 0);
   const maxUsage = Math.max(1, ...usage.map((row) => row.credits));
-  // What the balance buys, using the three cheapest everyday actions.
-  const examples = [...costs].filter((row) => row.credits > 0).sort((a, b) => a.credits - b.credits).slice(0, 3);
+  // What the balance buys, using the everyday content actions when they exist.
+  const everyday = ["write_script", "repurpose", "write_brief", "generate_week"];
+  const preferred = everyday.flatMap((action) => costs.filter((row) => row.action === action && row.credits > 0));
+  const examples = (preferred.length ? preferred : [...costs].filter((row) => row.credits > 0).sort((a, b) => a.credits - b.credits)).slice(0, 3);
   const featured = packs.find((pack) => pack.code === "intermediate")?.code;
   const canBuy = user.platformRole !== "admin";
 
@@ -54,9 +56,9 @@ export default async function CreditsPage({
             <p className="text-[13px] font-medium text-white/70">{tr(locale, "Enough for about", "大约够用")}</p>
             <ul className="mt-3 space-y-2.5">
               {examples.map((row) => (
-                <li key={row.action} className="flex items-baseline justify-between gap-3">
+                <li key={row.action} className="flex items-center justify-between gap-3">
                   <span className="text-[14px] text-white/90">{label(row)}</span>
-                  <span className="nums text-[18px]">{Math.floor(wallet.balance / row.credits)}<span className="ml-1 text-[12px] font-normal text-white/60">× · {row.credits} {tr(locale, "each", "点/次")}</span></span>
+                  <span className="text-right"><span className="nums text-[18px]">{Math.floor(wallet.balance / row.credits)}×</span><span className="block text-[11.5px] text-white/60">{row.credits} {tr(locale, "credits each", "点/次")}</span></span>
                 </li>
               ))}
             </ul>
