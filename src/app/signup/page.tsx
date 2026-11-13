@@ -14,10 +14,10 @@ export default async function SignupPage({
   const locale = await getLocale();
   const sp = await searchParams;
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-[#F2F6F4] px-5 py-8 text-[#10251F]">
+    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-[#F6F7F5] px-5 py-8 text-[#14201B]">
       <div className="mb-8 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 text-[14px] font-semibold text-[#10251F] no-underline">
-          <span className="grid size-5 place-items-center rounded-[4px] bg-[#0B624C] text-[13px] text-white">A</span>
+        <Link href="/" className="flex items-center gap-2 text-[14px] font-semibold text-[#14201B] no-underline">
+          <span className="grid size-5 place-items-center rounded-[4px] bg-[#0F6B4F] text-[13px] text-white">A</span>
           Adsmart Team
         </Link>
         <LocaleSwitch locale={locale} />

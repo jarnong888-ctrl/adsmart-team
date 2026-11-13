@@ -28,7 +28,7 @@ import { logActivity, track } from "@/server/audit";
 import { assertSufficient, purchasePackage, refundCredits, spendCredits, ensureWallet } from "@/server/credits";
 import { PaymentNotConfigured } from "@/lib/payments";
 import { memberIdsFor, requireUser, resolveWorkspaces } from "@/server/guard";
-import { go, rethrowRedirect, safeNext } from "@/server/nav";
+import { go, goBack, rethrowRedirect, safeNext } from "@/server/nav";
 
 function refresh() {
   revalidatePath("/studio", "layout");
@@ -339,7 +339,7 @@ export async function saveScript(formData: FormData) {
   await prisma.script.update({ where: { id: item.script.id }, data: { body } });
   await logActivity({ workspaceId: item.workspaceId, role: "scriptwriter", code: "script_written", detail: item.title });
   refresh();
-  go(`/studio/pipeline/${item.id}`, { notice: "saved" });
+  goBack(formData, `/studio/pipeline/${item.id}`, { notice: "saved" });
 }
 
 export async function generateScript(formData: FormData) {
@@ -348,7 +348,7 @@ export async function generateScript(formData: FormData) {
   const language = languageRaw === "en" || languageRaw === "ms" || languageRaw === "zh" ? languageRaw : undefined;
   const itemId = await writeScript(String(formData.get("itemId") ?? ""), language, user.id);
   refresh();
-  go(`/studio/pipeline/${itemId}`, { notice: "scripts" });
+  goBack(formData, `/studio/pipeline/${itemId}`, { notice: "scripts" });
 }
 
 export async function generateScriptsForPlan(formData: FormData) {
@@ -426,7 +426,7 @@ export async function repurposeItem(formData: FormData) {
   await track({ workspaceId: item.workspaceId, actorUserId: user.id, kind: "repurposed", feature: "repurposer" });
   await logActivity({ workspaceId: item.workspaceId, role: "repurposer", code: "repurposed", detail: item.title });
   refresh();
-  go(`/studio/pipeline/${item.id}`, { notice: "repurposed" });
+  goBack(formData, `/studio/pipeline/${item.id}`, { notice: "repurposed" });
 }
 
 export async function briefItem(formData: FormData) {
@@ -479,7 +479,7 @@ export async function briefItem(formData: FormData) {
   await track({ workspaceId: item.workspaceId, actorUserId: user.id, kind: "brief_created", feature: "editor" });
   await logActivity({ workspaceId: item.workspaceId, role: "editor", code: "brief_ready", detail: item.title });
   refresh();
-  go(`/studio/pipeline/${item.id}`, { notice: "brief" });
+  goBack(formData, `/studio/pipeline/${item.id}`, { notice: "brief" });
 }
 
 export async function attachRaw(formData: FormData) {
@@ -603,7 +603,7 @@ export async function approveScript(formData: FormData) {
     throw error;
   }
   refresh();
-  go(`/studio/pipeline/${itemId}`, { notice: "script_approved" });
+  goBack(formData, `/studio/pipeline/${itemId}`, { notice: "script_approved" });
 }
 
 export async function publishPost(formData: FormData) {

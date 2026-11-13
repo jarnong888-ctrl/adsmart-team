@@ -1,23 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_SC } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { cookies } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
+// Noto Sans SC is self-hosted from npm (split by unicode-range, so a page only
+// downloads the characters it uses). No build-time call to Google Fonts.
+import "@fontsource/noto-sans-sc/400.css";
+import "@fontsource/noto-sans-sc/500.css";
+import "@fontsource/noto-sans-sc/600.css";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const noto = Noto_Sans_SC({
-  weight: ["600", "700", "800"],
-  variable: "--font-noto",
-  display: "swap",
-  preload: false,
-  adjustFontFallback: false,
-});
 
 export const metadata: Metadata = {
   title: "Adsmart Team",
@@ -27,7 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const locale = (await cookies()).get("adsmart_locale")?.value === "zh" ? "zh-CN" : "en";
   return (
-    <html lang={locale} className={`${inter.variable} ${noto.variable} h-full`}>
+    <html lang={locale} className={`${GeistSans.variable} ${GeistMono.variable} h-full`}>
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster position="top-center" theme="light" />

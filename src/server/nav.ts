@@ -8,6 +8,23 @@ export function go(path: string, code?: { error?: string; notice?: string }): ne
   redirect(query ? `${path}?${query}` : path);
 }
 
+/**
+ * Redirect to the page the form came from when it is a known studio list
+ * (Scripts), otherwise to the fallback. Only same-app paths are accepted.
+ */
+export function goBack(formData: FormData, fallback: string, code?: { error?: string; notice?: string }): never {
+  const raw = String(formData.get("returnTo") ?? "");
+  if (!raw.startsWith("/studio/scripts")) go(fallback, code);
+  const url = new URL(raw, "http://local");
+  if (url.pathname !== "/studio/scripts") go(fallback, code);
+  url.searchParams.delete("error");
+  url.searchParams.delete("notice");
+  if (code?.error) url.searchParams.set("error", code.error);
+  if (code?.notice) url.searchParams.set("notice", code.notice);
+  const query = url.searchParams.toString();
+  redirect(query ? `${url.pathname}?${query}` : url.pathname);
+}
+
 export function rethrowRedirect(error: unknown) {
   if (
     typeof error === "object" &&

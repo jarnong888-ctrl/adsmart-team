@@ -15,8 +15,8 @@ import { studioContext } from "@/server/context";
 const KL = "Asia/Kuala_Lumpur";
 
 const EDGE: Record<string, string> = {
-  pending_approval: "border-l-[#167e6c]",
-  approved: "border-l-[#0B624C]",
+  pending_approval: "border-l-[#1A7A5E]",
+  approved: "border-l-[#0F6B4F]",
   published: "border-l-[#5E7D74]",
   unscheduled: "border-l-[#7DADA0]",
   changes_requested: "border-l-[#B45309]",
@@ -71,26 +71,26 @@ export default async function SchedulePage({
         <div className="space-y-6">
           {weekStarts.map((start) => (
             <section key={start}>
-              <h2 className="mb-2 text-[13px] font-semibold text-[#1C453A]">{weekLabel(start, locale)}</h2>
-              <div className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
-                <div className="grid grid-cols-1 md:grid-cols-7 md:divide-x md:divide-[#D5E3DD]">
+              <h2 className="mb-2 text-[13px] font-semibold text-[#3F4C46]">{weekLabel(start, locale)}</h2>
+              <div className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-7 md:divide-x md:divide-[#E4E8E5]">
                   {days.map((day, index) => {
                     const date = addDays(start, index);
                     const dayGroups = (weeks.get(start) ?? []).filter((group) => daysBetween(start, kualaLumpurDate(group[0]!.scheduledFor)) === index);
                     return (
-                      <div key={day} className="min-h-28 border-b border-[#D5E3DD] p-2 last:border-b-0 md:min-h-40 md:border-b-0">
-                        <p className="mb-2 flex items-baseline justify-between text-[13px] font-medium text-[#3D5C54]">
+                      <div key={day} className="min-h-28 border-b border-[#E4E8E5] p-2 last:border-b-0 md:min-h-40 md:border-b-0">
+                        <p className="mb-2 flex items-baseline justify-between text-[13px] font-medium text-[#5E6B65]">
                           {day}
-                          <span className="nums text-[13px] text-[#10251F]">{date.slice(8)}</span>
+                          <span className="nums text-[13px] text-[#14201B]">{date.slice(8)}</span>
                         </p>
                         <div className="space-y-2">
                           {dayGroups.map((group) => {
                             const entry = group.find((row) => row.status === "pending_approval") ?? group[0]!;
                             const platforms = group.map((row) => row.platform);
                             return (
-                              <article key={entry.contentItemId} className={`rounded-[4px] border border-[#D5E3DD] border-l-2 bg-[#F2F6F4] px-2 py-2 ${EDGE[entry.status] ?? "border-l-[#D5E3DD]"}`}>
+                              <article key={entry.contentItemId} className={`rounded-[4px] border border-[#E4E8E5] border-l-2 bg-[#F6F7F5] px-2 py-2 ${EDGE[entry.status] ?? "border-l-[#E4E8E5]"}`}>
                                 <Link href={`/studio/pipeline/${entry.contentItemId}`} className="line-clamp-2 text-[13px] font-medium leading-snug">{entry.contentItem.title}</Link>
-                                <p className="mt-1 text-[13px] font-medium text-[#3D5C54]">{group.map((row) => clock(row.scheduledFor, locale)).join(" · ")}</p>
+                                <p className="mt-1 text-[13px] font-medium text-[#5E6B65]">{group.map((row) => clock(row.scheduledFor, locale)).join(" · ")}</p>
                                 <div className="mt-1.5"><PlatformChips platforms={platforms} /></div>
                                 <div className="mt-1.5"><StatusBadge locale={locale} status={entry.status} /></div>
                                 <div className="mt-2">{decision(entry, user.platformRole, locale)}</div>
@@ -134,7 +134,7 @@ function decision(
   locale: "en" | "zh",
 ) {
   if ((entry.status === "pending_approval" || entry.status === "unscheduled") && role === "admin") {
-    return <p className="text-[13px] text-[#3D5C54]">{tr(locale, "Client only", "仅客户")}</p>;
+    return <p className="text-[13px] text-[#5E6B65]">{tr(locale, "Client only", "仅客户")}</p>;
   }
   if (entry.status === "pending_approval" || entry.status === "unscheduled") {
     return (
@@ -155,7 +155,7 @@ function decision(
     );
   }
   if (entry.status === "approved" && role === "admin") {
-    return <p className="text-[13px] text-[#3D5C54]">{tr(locale, "Client only", "仅客户")}</p>;
+    return <p className="text-[13px] text-[#5E6B65]">{tr(locale, "Client only", "仅客户")}</p>;
   }
   if (entry.status === "approved") {
     return (
@@ -167,5 +167,5 @@ function decision(
     );
   }
   if (entry.status === "published") return null;
-  return entry.publishResult ? <span className="text-[13px] text-[#3D5C54]">{entry.publishResult}</span> : null;
+  return entry.publishResult ? <span className="text-[13px] text-[#5E6B65]">{entry.publishResult}</span> : null;
 }

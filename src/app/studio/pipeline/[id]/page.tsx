@@ -19,7 +19,7 @@ export default async function ItemPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string; notice?: string; ack?: string }>;
+  searchParams: Promise<{ error?: string; notice?: string; ack?: string; from?: string }>;
 }) {
   const { user, locale, workspace } = await studioContext();
   const { id } = await params;
@@ -35,8 +35,8 @@ export default async function ItemPage({
   return (
     <div>
       <Flash locale={locale} error={sp.error} notice={sp.notice} />
-      <Link href="/studio/pipeline" className="text-sm text-muted-foreground underline">
-        {tr(locale, "Back to the pipeline", "返回流水线")}
+      <Link href={sp.from === "scripts" ? `/studio/scripts?item=${item.id}` : "/studio/pipeline"} className="inline-flex items-center gap-1 text-[13.5px] font-medium text-[#5E6B65] hover:text-[#14201B]">
+        ← {sp.from === "scripts" ? tr(locale, "Back to Scripts", "返回脚本") : tr(locale, "Back to the pipeline", "返回流水线")}
       </Link>
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <StatusBadge locale={locale} status={item.status} />
@@ -45,8 +45,8 @@ export default async function ItemPage({
           {item.softSell ? ` · ${tr(locale, "soft sell", "软性销售")}` : ""}
         </span>
       </div>
-      <h1 className="mt-3 max-w-3xl text-[22px] leading-[1.35] font-semibold">{item.title}</h1>
-      <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">{item.angle}</p>
+      <h1 className="font-cjk mt-3 max-w-3xl text-[26px] leading-[1.3] font-semibold">{item.title}</h1>
+      <p className="font-cjk mt-2 max-w-3xl text-[15px] leading-[1.7] text-[#3F4C46]">{item.angle}</p>
       <dl className="mt-4 grid max-w-3xl gap-3 sm:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-3">
           <dt className="text-xs text-muted-foreground">{tr(locale, "Hook", "钩子")}</dt>
@@ -69,7 +69,7 @@ export default async function ItemPage({
           ))}
         </div>
         {item.script?.flags.includes("NEEDS_FACT_CHECK") ? (
-          <p className="mb-3 rounded-[8px] border border-[#EED6A3] bg-[#FDF6E7] px-3 py-2 text-[13px] leading-[1.55] text-[#1C453A]">
+          <p className="mb-3 rounded-[8px] border border-[#EED6A3] bg-[#FDF6E7] px-3 py-2 text-[13px] leading-[1.55] text-[#3F4C46]">
             <span className="font-medium text-[#B45309]">{tr(locale, "Do not add a number with no source.", "口播里不要加没有出处的数字。")}</span>
             {" "}
             {tr(locale, "You can approve this script. Confirm the flagged lines in the dialog first. That acknowledgement is logged, and the flags stay.", "这条脚本可以批准。先在对话框里确认列出的标记。这次确认会记入批准记录，标记不会消失。")}
@@ -108,9 +108,9 @@ export default async function ItemPage({
           <p className="mt-3 text-sm text-muted-foreground">{tr(locale, "Approve the week before a script can be written.", "先批准这一周，才能写脚本。")}</p>
         )}
       </section>
-      <aside className="h-fit rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <aside className="h-fit rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="text-[14px] font-semibold">{tr(locale, "Next", "下一步")}</h2>
-        <p className="mt-1 text-[13px] leading-[1.55] text-[#3D5C54]">{tr(locale, "After the script is approved, repurpose and the edit brief can continue. Scheduling happens when you approve the finished post. There is no second publish step.", "脚本批准后，改写和剪辑会继续。排期发生在你批准做好的内容时，不需要再点一次发布。")}</p>
+        <p className="mt-1 text-[13px] leading-[1.55] text-[#5E6B65]">{nextHint(locale, item.status)}</p>
         <div className="mt-3 space-y-2">
           {item.status === "script_ready" ? (
             <form action={repurposeItem}><input type="hidden" name="itemId" value={item.id} /><SubmitButton variant="outline" className="w-full">{tr(locale, "Turn this script into other formats", "把这条脚本改写成其他格式")}</SubmitButton></form>
@@ -118,13 +118,13 @@ export default async function ItemPage({
           {item.status === "repurposed" ? (
             <form action={briefItem}><input type="hidden" name="itemId" value={item.id} /><SubmitButton variant="outline" className="w-full">{tr(locale, "Write the edit brief", "生成剪辑单")}</SubmitButton></form>
           ) : null}
-          {item.script && !item.script.approvedAt && user.platformRole !== "admin" ? (
+          {item.script && !item.script.approvedAt && item.status === "script_ready" && user.platformRole !== "admin" ? (
             requiresFactCheckAck(item.script.flags, item.script.body) ? (
-              <Link href={`/studio/pipeline/${item.id}?ack=1`} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]">{tr(locale, "Approve script", "批准脚本")}</Link>
+              <Link href={`/studio/pipeline/${item.id}?ack=1`} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]">{tr(locale, "Approve script", "批准脚本")}</Link>
             ) : (
               <form action={approveScript}><input type="hidden" name="itemId" value={item.id} /><SubmitButton>{tr(locale, "Approve script", "批准脚本")}</SubmitButton></form>
             )
-          ) : item.script?.approvedAt ? <p className="text-[13px] text-[#0B624C]">{tr(locale, "Script approved. Open fact-checks stay on it.", "脚本已批准。待核实标记还在。")}</p> : null}
+          ) : item.script?.approvedAt ? <p className="text-[13px] text-[#0F6B4F]">{tr(locale, "Script approved. Open fact-checks stay on it.", "脚本已批准。待核实标记还在。")}</p> : null}
           {item.script && sp.ack === "1" && requiresFactCheckAck(item.script.flags, item.script.body) ? (
             <FactDialog locale={locale} itemId={item.id} flags={listFactFlags(item.script.body, item.script.flags)} />
           ) : null}
@@ -214,17 +214,17 @@ function FactDialog({
   flags: { where: string; quote: string }[];
 }) {
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-[#10251F]/35 p-4">
-      <div role="dialog" aria-modal="true" className="w-full max-w-lg rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[#14201B]/35 p-4">
+      <div role="dialog" aria-modal="true" className="w-full max-w-lg rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="type-h2">{tr(locale, "Fact-check", "待核实")}</h2>
-        <p className="mt-2 text-[13px] leading-[1.55] text-[#1C453A]">
+        <p className="mt-2 text-[13px] leading-[1.55] text-[#3F4C46]">
           {tr(locale, `${flags.length} open. You can still approve. This yes is logged.`, `${flags.length} 处未核实。仍可批准。确认会被记录。`)}
         </p>
         <ul className="mt-3 space-y-2">
           {flags.map((flag, index) => (
             <li key={`${flag.where}-${index}`} className="rounded-[6px] border border-[#EED6A3] bg-[#FDF6E7] px-3 py-2 text-[13px]">
               <p className="font-medium text-[#B45309]">{index + 1} · {flag.where}</p>
-              <p className="mt-1 leading-[1.55] text-[#1C453A]">{flag.quote}</p>
+              <p className="mt-1 leading-[1.55] text-[#3F4C46]">{flag.quote}</p>
             </li>
           ))}
         </ul>
@@ -237,14 +237,37 @@ function FactDialog({
             </span>
           </label>
           <div className="flex justify-end gap-2">
-            <Link href={`/studio/pipeline/${itemId}`} className="inline-flex h-9 items-center rounded-[6px] border border-[#C5D9D1] px-3 text-[13px]">{tr(locale, "Cancel", "取消")}</Link>
+            <Link href={`/studio/pipeline/${itemId}`} className="inline-flex h-9 items-center rounded-[6px] border border-[#DCE1DE] px-3 text-[13px]">{tr(locale, "Cancel", "取消")}</Link>
             <SubmitButton>{tr(locale, "Approve script", "批准脚本")}</SubmitButton>
           </div>
         </form>
-        <p className="mt-3 text-[13px] text-[#3D5C54]">{tr(locale, "Tick to enable approve. Flags do not block the script.", "勾选后才能批准。标记不会挡住脚本。")}</p>
+        <p className="mt-3 text-[13px] text-[#5E6B65]">{tr(locale, "Tick to enable approve. Flags do not block the script.", "勾选后才能批准。标记不会挡住脚本。")}</p>
       </div>
     </div>
   );
+}
+
+function nextHint(locale: "en" | "zh", status: string) {
+  switch (status) {
+    case "planned":
+      return tr(locale, "Approve the week first. Nothing is written until then.", "先批准这一周。批准前不会写任何内容。");
+    case "plan_approved":
+      return tr(locale, "Write the script. After that come formats, the edit brief and the queue.", "先写脚本，之后是改写、剪辑单和排队。");
+    case "script_ready":
+      return tr(locale, "Approve the script, then turn it into other formats. Scheduling happens when you approve the finished post.", "批准脚本，然后改写成其他格式。批准做好的内容时才会排期。");
+    case "repurposed":
+      return tr(locale, "Write the edit brief next.", "下一步写剪辑单。");
+    case "brief_ready":
+      return tr(locale, "Add it to the queue. Queueing does not post; one approval later schedules every platform.", "放进队列。放进队列不会发出，之后批准一次会排到所有平台。");
+    case "queued":
+      return tr(locale, "Waiting for your approval in Schedule. There is no separate publish step.", "在排期里等你批准。不需要再点发布。");
+    case "schedule_approved":
+      return tr(locale, "Approved and scheduled. It goes out at the planned time.", "已批准并排期，会在计划时间发出。");
+    case "published":
+      return tr(locale, "Posted. Record views and followers in Analytics.", "已发出。在数据页记录播放和粉丝。");
+    default:
+      return "";
+  }
 }
 
 function Block({ title, body }: { title: string; body: string }) {

@@ -24,5 +24,5 @@ export function ShellTop({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const key = Object.keys(LABELS).find((item) => pathname === item || (item !== "/studio" && pathname.startsWith(`${item}/`))) ?? "/studio";
   const pair = LABELS[key];
-  return <p className="truncate text-[13px] text-[#1C453A]">{locale === "zh" ? pair[1] : pair[0]}</p>;
+  return <p className="truncate text-[13px] text-[#3F4C46]">{locale === "zh" ? pair[1] : pair[0]}</p>;
 }

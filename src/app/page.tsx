@@ -26,12 +26,12 @@ export default async function HomePage() {
   const locale = await getLocale();
   const zh = locale === "zh";
   return (
-    <div className="min-h-screen bg-[#F2F6F4] text-[#10251F]">
+    <div className="min-h-screen bg-[#F6F7F5] text-[#14201B]">
       <header className="mx-auto flex h-14 w-full max-w-[1120px] items-center justify-between gap-3 px-4">
         <div className="flex items-center gap-2">
-          <span className="grid size-5 place-items-center rounded-[4px] bg-[#0B624C] text-[13px] font-semibold text-white">A</span>
+          <span className="grid size-5 place-items-center rounded-[4px] bg-[#0F6B4F] text-[13px] font-semibold text-white">A</span>
           <span className="text-[14px] font-semibold">Adsmart Team</span>
-          <span className="hidden text-[13px] tracking-wide text-[#3D5C54] sm:inline">KUALA LUMPUR</span>
+          <span className="hidden text-[13px] tracking-wide text-[#5E6B65] sm:inline">KUALA LUMPUR</span>
         </div>
         <nav className="flex items-center gap-2 text-[13px]">
           <LocaleSwitch locale={locale} />
@@ -41,19 +41,19 @@ export default async function HomePage() {
             <input type="hidden" name="email" value="demo@adsmart.my" />
             <input type="hidden" name="password" value="studio-demo" />
             <input type="hidden" name="next" value="/studio" />
-            <button type="submit" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]">{tr(locale, "Open the Jarno demo", "打开 Jarno 演示")}</button>
+            <button type="submit" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]">{tr(locale, "Open the Jarno demo", "打开 Jarno 演示")}</button>
           </form>
         </nav>
       </header>
       <main className="mx-auto w-full max-w-[1120px] px-4 pb-16">
-        <p className="mt-10 text-[13px] text-[#3D5C54]">{zh ? "ADSMART · 吉隆坡" : "ADSMART · KUALA LUMPUR"}</p>
+        <p className="mt-10 text-[13px] text-[#5E6B65]">{zh ? "ADSMART · 吉隆坡" : "ADSMART · KUALA LUMPUR"}</p>
         <h1 className="mt-3 max-w-[18ch] text-[40px] leading-[1.2] font-semibold max-sm:text-[28px]">
           {zh ? "一支会等你点头的 AI 营销团队。" : "An AI marketing team that waits for your yes."}
         </h1>
-        <p className="mt-4 max-w-2xl text-[16px] leading-[1.5] text-[#1C453A]">
+        <p className="mt-4 max-w-2xl text-[16px] leading-[1.5] text-[#3F4C46]">
           {zh ? "An AI marketing team that waits for your yes." : "一支会等你点头的 AI 营销团队。"}
         </p>
-        <p className="mt-3 max-w-2xl text-[14px] leading-[1.65] text-[#1C453A]">
+        <p className="mt-3 max-w-2xl text-[14px] leading-[1.65] text-[#3F4C46]">
           {zh
             ? "卖给马来西亚中小企业。和 Jarno Ng 给 @jarnong 用的是同一套岗位：先计划一周，再写脚本，没有人批准，什么都不会发出去。"
             : "Sold to Malaysian SMEs. The same desks Jarno Ng uses for @jarnong: plan the week, write the scripts, and nothing goes out until a person approves it."}
@@ -63,29 +63,29 @@ export default async function HomePage() {
             <input type="hidden" name="email" value="demo@adsmart.my" />
             <input type="hidden" name="password" value="studio-demo" />
             <input type="hidden" name="next" value="/studio" />
-            <button type="submit" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]">{tr(locale, "Open the Jarno demo", "打开 Jarno 演示")}</button>
+            <button type="submit" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]">{tr(locale, "Open the Jarno demo", "打开 Jarno 演示")}</button>
           </form>
-          <Link href="/signup" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#C5D9D1] bg-[#E6F2ED] px-4 text-[14px] font-bold text-[#0B624C]">{tr(locale, "Start a workspace", "创建工作区")}</Link>
+          <Link href="/signup" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#DCE1DE] bg-[#E9F4EE] px-4 text-[14px] font-semibold text-[#0F6B4F]">{tr(locale, "Start a workspace", "创建工作区")}</Link>
         </div>
-        <ol className="mt-12 grid border border-[#D5E3DD] bg-white sm:grid-cols-2 xl:grid-cols-4">
+        <ol className="mt-12 grid border border-[#E4E8E5] bg-white sm:grid-cols-2 xl:grid-cols-4">
           {steps.map(([n, title, zhBody, enBody]) => (
-            <li key={n} className="border-[#D5E3DD] p-4 xl:border-r xl:last:border-r-0">
-              <p className="text-[13px] text-[#3D5C54]">{n}</p>
+            <li key={n} className="border-[#E4E8E5] p-4 xl:border-r xl:last:border-r-0">
+              <p className="text-[13px] text-[#5E6B65]">{n}</p>
               <h2 className="mt-2 text-[16px] font-semibold">{title}</h2>
-              <p className="mt-2 text-[13px] leading-[1.55] text-[#1C453A]">{zh ? zhBody : enBody}</p>
+              <p className="mt-2 text-[13px] leading-[1.55] text-[#3F4C46]">{zh ? zhBody : enBody}</p>
             </li>
           ))}
         </ol>
         <section className="mt-12">
           <h2 className="text-[22px] font-semibold">{zh ? "八个岗位。一个批准习惯。" : "Eight desks. One approval habit."}</h2>
-          <p className="mt-1 text-[13px] text-[#3D5C54]">{zh ? "每个岗位用字母缩写，不是卡通人物。" : "Each desk is a monogram, not a character."}</p>
-          <ul className="mt-4 grid overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white sm:grid-cols-2">
+          <p className="mt-1 text-[13px] text-[#5E6B65]">{zh ? "每个岗位用字母缩写，不是卡通人物。" : "Each desk is a monogram, not a character."}</p>
+          <ul className="mt-4 grid overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white sm:grid-cols-2">
             {desks.map(([mark, zhName, enName, zhLine, enLine]) => (
-              <li key={mark} className="flex gap-3 border-b border-[#D5E3DD] p-4 sm:[&:nth-child(odd)]:border-r">
-                <span className="grid size-7 shrink-0 place-items-center rounded-[6px] border border-[#D5E3DD] bg-[#E7F1EC] text-[13px] font-semibold">{mark}</span>
+              <li key={mark} className="flex gap-3 border-b border-[#E4E8E5] p-4 sm:[&:nth-child(odd)]:border-r">
+                <span className="grid size-7 shrink-0 place-items-center rounded-[6px] border border-[#E4E8E5] bg-[#EEF1EF] text-[13px] font-semibold">{mark}</span>
                 <div>
                   <h3 className="text-[14px] font-medium">{zh ? `${zhName} ${enName}` : `${enName}`}</h3>
-                  <p className="mt-1 text-[13px] leading-[1.55] text-[#1C453A]">{zh ? zhLine : enLine}</p>
+                  <p className="mt-1 text-[13px] leading-[1.55] text-[#3F4C46]">{zh ? zhLine : enLine}</p>
                 </div>
               </li>
             ))}

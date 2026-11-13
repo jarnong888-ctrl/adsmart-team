@@ -143,11 +143,11 @@ export function SetupWizard({ locale, profile }: { locale: Locale; profile: Prof
       ) : (
         <div className="mt-5 flex gap-2">
           {step > 0 ? (
-            <button type="button" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#C5D9D1] bg-[#E6F2ED] px-4 text-[14px] font-bold text-[#0B624C]" onClick={() => setStep((value) => value - 1)}>
+            <button type="button" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#DCE1DE] bg-[#E9F4EE] px-4 text-[14px] font-semibold text-[#0F6B4F]" onClick={() => setStep((value) => value - 1)}>
               {zh ? "上一步" : "Back"}
             </button>
           ) : null}
-          <button type="button" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]" onClick={() => setStep((value) => value + 1)}>
+          <button type="button" className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]" onClick={() => setStep((value) => value + 1)}>
             {zh ? "下一步" : "Next"}
           </button>
         </div>

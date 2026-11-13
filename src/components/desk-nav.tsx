@@ -51,11 +51,11 @@ export function DeskNav({
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`flex h-8 items-center gap-2 rounded-[6px] px-2 text-[13px] font-bold outline-none focus-visible:ring-2 focus-visible:ring-[#0B624C] ${active ? "bg-[#E6F2ED] text-[#0B624C]" : "text-[#1C453A] hover:bg-[#E7F1EC]"}`}
+            className={`flex h-9 items-center gap-2.5 rounded-[8px] px-2.5 text-[14px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#1E9A6E] ${active ? "bg-[#E9F4EE] text-[#0B5A42]" : "text-[#3F4C46] hover:bg-[#F1F3F2] hover:text-[#14201B]"}`}
           >
-            <Icon className="size-4 stroke-[2]" aria-hidden />
+            <Icon className="size-[18px] stroke-[1.75]" aria-hidden />
             <span className="flex-1">{item.label}</span>
-            {item.badge ? <span className="grid h-4 min-w-4 place-items-center rounded-[4px] bg-[#0B624C] px-1 text-[13px] text-white">{item.badge}</span> : null}
+            {item.badge ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[#0F6B4F] px-1.5 text-[11px] font-semibold text-white">{item.badge}</span> : null}
           </Link>
         );
       })}

@@ -12,7 +12,7 @@ import { saveSnapshot } from "@/server/studio-actions";
 import { markDesk } from "@/server/audit";
 import { studioContext } from "@/server/context";
 
-const control = "mt-1 h-10 w-full rounded-[6px] border border-[#C5D9D1] bg-white px-3 text-[14px]";
+const control = "mt-1 h-10 w-full rounded-[6px] border border-[#DCE1DE] bg-white px-3 text-[14px]";
 
 export default async function AnalyticsPage({
   searchParams,
@@ -49,12 +49,12 @@ export default async function AnalyticsPage({
         )}
       />
       {missingSocial.length ? (
-        <p className="mt-3 text-[13px] text-[#3D5C54]">
+        <p className="mt-3 text-[13px] text-[#5E6B65]">
           {tr(locale, "Mock series.", "模拟序列。")}{" "}
-          <Link href="/studio/connections" className="font-medium text-[#10251F] underline">{tr(locale, "Connect accounts", "连接账号")}</Link>
+          <Link href="/studio/connections" className="font-medium text-[#14201B] underline">{tr(locale, "Connect accounts", "连接账号")}</Link>
         </p>
       ) : null}
-      <details className="mt-6 rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <details className="mt-6 rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <summary className="cursor-pointer text-[14px] font-medium">{tr(locale, "Add a manual count", "手填一笔数据")}</summary>
         <form action={saveSnapshot} className="mt-4 grid max-w-3xl gap-3 sm:grid-cols-2">
           <label className="text-[13px]">

@@ -107,10 +107,10 @@ export default async function TodayPage({
       </header>
 
       {next ? (
-        <section className="mb-4 flex flex-col gap-3 rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <section className="mb-4 flex flex-col gap-3 rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h2 className="text-[18px] font-semibold leading-snug">{next.title}</h2>
-            <p className="mt-1 text-[16px] text-[#3D5C54]">{next.line}</p>
+            <p className="mt-1 text-[16px] text-[#5E6B65]">{next.line}</p>
           </div>
           {next.kind === "plan" && next.planId ? (
             <form action={decidePlan}>
@@ -119,12 +119,12 @@ export default async function TodayPage({
               <SubmitButton>{next.cta}</SubmitButton>
             </form>
           ) : next.href ? (
-            <Link href={next.href} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]">{next.cta}</Link>
+            <Link href={next.href} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]">{next.cta}</Link>
           ) : null}
         </section>
       ) : null}
 
-      <section className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
+      <section className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
         <div className="grid grid-cols-2 xl:grid-cols-4">
           <Metric label={tr(locale, "Waiting", "待处理")} value={String(waiting)} hint={tr(locale, "Posts to approve", "待批准的内容")} spark={videos.map((_, index) => index + 1)} />
           <Metric
@@ -151,12 +151,12 @@ export default async function TodayPage({
           <InfoTip text={tr(locale, "One yes schedules every platform. Unschedule before send time.", "一次批准覆盖各平台。发出前可取消。")} />
         </h2>
         {waiting === 0 ? (
-          <p className="rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-8 text-center text-[14px]">{tr(locale, "Nothing waiting.", "没有待批内容。")}</p>
+          <p className="rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-8 text-center text-[14px]">{tr(locale, "Nothing waiting.", "没有待批内容。")}</p>
         ) : (
-          <div className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
+          <div className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
             <table className="hidden w-full text-left text-[13px] md:table">
-              <thead className="text-[13px] text-[#3D5C54]">
-                <tr className="border-b border-[#D5E3DD]">
+              <thead className="text-[13px] text-[#5E6B65]">
+                <tr className="border-b border-[#E4E8E5]">
                   <th className="px-4 py-2 font-medium">{tr(locale, "Item", "内容")}</th>
                   <th className="px-3 py-2 font-medium">{tr(locale, "Where", "平台")}</th>
                   <th className="px-3 py-2 font-medium">{tr(locale, "When", "时间")}</th>
@@ -169,7 +169,7 @@ export default async function TodayPage({
                   const post = group[0]!;
                   const platforms = group.map((row) => row.platform);
                   return (
-                    <tr key={post.contentItemId} className="border-b border-[#D5E3DD] last:border-0">
+                    <tr key={post.contentItemId} className="border-b border-[#E4E8E5] last:border-0">
                       <td className="px-4 py-3 font-medium">{post.contentItem.title}</td>
                       <td className="px-3 py-3"><PlatformChips platforms={platforms} /></td>
                       <td className="px-3 py-3 tabular-nums">{group.map((row) => <span key={row.id} className="block">{formatWhen(row.scheduledFor, locale)}</span>)}</td>
@@ -184,12 +184,12 @@ export default async function TodayPage({
               {videos.map((group) => {
                 const post = group[0]!;
                 return (
-                  <li key={post.contentItemId} className="border-b border-[#D5E3DD] px-4 py-3 last:border-0">
+                  <li key={post.contentItemId} className="border-b border-[#E4E8E5] px-4 py-3 last:border-0">
                     <Link href={`/studio/approve/${post.id}`} className="block">
                       <StatusBadge locale={locale} status="pending_approval" />
                       <p className="mt-2 text-[14px] font-medium">{post.contentItem.title}</p>
                       <div className="mt-2"><PlatformChips platforms={group.map((row) => row.platform)} /></div>
-                      <p className="text-[13px] text-[#3D5C54]">{group.map((row) => formatWhen(row.scheduledFor, locale)).join(" · ")}</p>
+                      <p className="text-[13px] text-[#5E6B65]">{group.map((row) => formatWhen(row.scheduledFor, locale)).join(" · ")}</p>
                     </Link>
                   </li>
                 );
@@ -202,15 +202,15 @@ export default async function TodayPage({
       <section className="mt-6">
         <h2 className="type-h2 mb-2">{tr(locale, "Scheduled", "即将发出")}</h2>
         {upcoming.length === 0 ? (
-          <p className="rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-6 text-center text-[13px] text-[#3D5C54]">{tr(locale, "Nothing scheduled.", "没有已排期内容。")}</p>
+          <p className="rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-6 text-center text-[13px] text-[#5E6B65]">{tr(locale, "Nothing scheduled.", "没有已排期内容。")}</p>
         ) : (
-          <div className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
+          <div className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
             <table className="w-full text-left text-[13px]">
               <tbody>
                 {upcoming.map((group) => {
                   const post = group[0]!;
                   return (
-                    <tr key={post.contentItemId} className="border-b border-[#D5E3DD] last:border-0">
+                    <tr key={post.contentItemId} className="border-b border-[#E4E8E5] last:border-0">
                       <td className="px-4 py-3 font-medium">{post.contentItem.title}</td>
                       <td className="px-3 py-3"><PlatformChips platforms={group.map((row) => row.platform)} /></td>
                       <td className="px-3 py-3 tabular-nums">{group.map((row) => <span key={row.id} className="block">{formatWhen(row.scheduledFor, locale)}</span>)}</td>
@@ -236,12 +236,12 @@ export default async function TodayPage({
       <section className="mt-6">
         <h2 className="type-h2 mb-2">{tr(locale, "Last 48 hours", "过去 48 小时")}</h2>
         {activities.length === 0 ? (
-          <p className="rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-6 text-center text-[13px] text-[#3D5C54]">{tr(locale, "No activity.", "没有动态。")}</p>
+          <p className="rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-6 text-center text-[13px] text-[#5E6B65]">{tr(locale, "No activity.", "没有动态。")}</p>
         ) : (
-          <ul className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
+          <ul className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
             {activities.slice(0, 6).map((row) => (
-              <li key={row.id} className="flex items-start gap-3 border-b border-[#D5E3DD] px-4 py-2.5 last:border-0">
-                <span className="grid size-6 shrink-0 place-items-center rounded-[6px] border border-[#D5E3DD] bg-[#F2F6F4] text-[13px] font-semibold">{MONO[row.role] ?? "·"}</span>
+              <li key={row.id} className="flex items-start gap-3 border-b border-[#E4E8E5] px-4 py-2.5 last:border-0">
+                <span className="grid size-6 shrink-0 place-items-center rounded-[6px] border border-[#E4E8E5] bg-[#F6F7F5] text-[13px] font-semibold">{MONO[row.role] ?? "·"}</span>
                 <p className="text-[13px] leading-snug">{activityLine(locale, row.code, row.detail.replace(/_stub_[a-z0-9]+/gi, "").replace(/\s+·\s*$/, ""))}</p>
               </li>
             ))}
@@ -329,17 +329,17 @@ function ScheduleConfirm({
   const group = groups.find((rows) => rows.some((row) => row.id === entryId));
   if (!group) return null;
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-[#10251F]/35 p-4">
-      <div role="dialog" aria-modal="true" className="w-full max-w-md rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[#14201B]/35 p-4">
+      <div role="dialog" aria-modal="true" className="w-full max-w-md rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="text-[16px] font-semibold">{tr(locale, "Approve and schedule", "批准并排期")}</h2>
-        <p className="mt-1 text-[13px] text-[#3D5C54]">{tr(locale, "Goes out at these times. Unschedule before then.", "将在这些时间发出。发出前可取消。")}</p>
+        <p className="mt-1 text-[13px] text-[#5E6B65]">{tr(locale, "Goes out at these times. Unschedule before then.", "将在这些时间发出。发出前可取消。")}</p>
         <p className="mt-3 text-[14px] font-medium">{group[0]?.contentItem.title}</p>
         <div className="mt-2"><PlatformChips platforms={group.map((row) => row.platform)} /></div>
-        <ul className="mt-2 space-y-1 text-[13px] text-[#1C453A]">
+        <ul className="mt-2 space-y-1 text-[13px] text-[#3F4C46]">
           {group.map((row) => <li key={row.id}>{row.platform} · {formatWhen(row.scheduledFor, locale)}</li>)}
         </ul>
         <div className="mt-4 flex justify-end gap-2">
-          <Link href="/studio" className="inline-flex h-9 items-center rounded-[6px] border border-[#D5E3DD] bg-white px-3 text-[13px]">{tr(locale, "Cancel", "取消")}</Link>
+          <Link href="/studio" className="inline-flex h-9 items-center rounded-[6px] border border-[#E4E8E5] bg-white px-3 text-[13px]">{tr(locale, "Cancel", "取消")}</Link>
           <form action={decidePost}>
             <input type="hidden" name="entryId" value={entryId} />
             <input type="hidden" name="decision" value="approve" />
@@ -354,8 +354,8 @@ function ScheduleConfirm({
 
 function Metric({ label, value, hint, warn, spark }: { label: string; value: string; hint: string; warn?: boolean; spark?: number[] }) {
   return (
-    <article className="border-r border-b border-[#D5E3DD] px-4 py-3 last:border-r-0 xl:border-b-0">
-      <p className="inline-flex items-center gap-1 text-[13px] font-medium text-[#3D5C54]">
+    <article className="border-r border-b border-[#E4E8E5] px-4 py-3 last:border-r-0 xl:border-b-0">
+      <p className="inline-flex items-center gap-1 text-[13px] font-medium text-[#5E6B65]">
         {label}
         <InfoTip text={hint} />
       </p>
@@ -368,7 +368,7 @@ function Metric({ label, value, hint, warn, spark }: { label: string; value: str
 function RowActions({ entryId, locale }: { entryId: string; locale: "en" | "zh" }) {
   return (
     <div className="flex gap-2">
-      <Link href={`/studio?confirm=${entryId}`} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#086B54] bg-[#0B624C] px-4 text-[14px] font-bold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#094E3D]">{tr(locale, "Approve & schedule", "批准并排期")}</Link>
+      <Link href={`/studio?confirm=${entryId}`} className="inline-flex h-9 items-center justify-center rounded-[8px] border border-[#0F6B4F] bg-[#0F6B4F] px-4 text-[14px] font-semibold text-white shadow-[0_1px_0_rgba(8,107,84,0.9),0_1px_2px_rgba(12,46,40,0.18)] hover:bg-[#0A5540]">{tr(locale, "Approve & schedule", "批准并排期")}</Link>
       <form action={decidePost}>
         <input type="hidden" name="entryId" value={entryId} />
         <input type="hidden" name="decision" value="reject" />
@@ -379,5 +379,5 @@ function RowActions({ entryId, locale }: { entryId: string; locale: "en" | "zh" 
 }
 
 function StaffNote({ locale }: { locale: "en" | "zh" }) {
-  return <p className="text-[13px] text-[#3D5C54]">{tr(locale, "Client approval only.", "仅客户可批。")}</p>;
+  return <p className="text-[13px] text-[#5E6B65]">{tr(locale, "Client approval only.", "仅客户可批。")}</p>;
 }

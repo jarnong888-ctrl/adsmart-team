@@ -17,18 +17,22 @@
     "setup": "prisma generate && prisma db push && tsx prisma/seed.ts",
     "predemo": "node scripts/ensure-env.mjs",
     "demo": "prisma generate && prisma db push && tsx prisma/seed.ts && next dev --hostname 0.0.0.0 --port 43123",
-    "pretest": "prisma generate && DATABASE_URL=file:./prisma/test.db prisma db push --skip-generate --accept-data-loss"
+    "pretest": "prisma generate && DATABASE_URL=file:./prisma/test.db prisma db push --skip-generate --accept-data-loss",
+    "build:staging": "prisma generate && next build",
+    "start:staging": "prisma db push --skip-generate && node scripts/seed-if-empty.mjs && next start --hostname 0.0.0.0 --port ${PORT:-43123}"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@fontsource/noto-sans-sc": "^5.3.1",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
     "exceljs": "^4.4.0",
+    "geist": "^1.9.2",
     "js-tiktoken": "^1.0.20",
     "lucide-react": "^1.70.0",
     "next": "16.4.6",

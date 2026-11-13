@@ -56,20 +56,20 @@ export default async function AdminPage({
           "客户看不到这一页。建议也要等你发出去，他们才看得到。参与度低和流失风险是规则，不是模型打分。",
         )}
       />
-      <section className="mb-6 rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <section className="mb-6 rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="type-h2">{tr(locale, "Platform services", "平台服务")}</h2>
         <p className="type-caption mt-1">{tr(locale, "Adsmart keys. Clients do not connect these.", "Adsmart 的密钥。客户不连接。")}</p>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {services.map((service) => (
-            <li key={service.id} className="rounded-[6px] border border-[#D5E3DD] px-3 py-2">
+            <li key={service.id} className="rounded-[6px] border border-[#E4E8E5] px-3 py-2">
               <p className="text-[14px] font-medium">{tr(locale, service.nameEn, service.nameZh)}</p>
-              <p className="mt-1 text-[13px] text-[#3D5C54]">{service.id === "buffer" ? tr(locale, "Posts to client socials", "发到客户社交账号") : tr(locale, "Design account", "设计账号")}</p>
-              <p className="mt-2 text-[13px] text-[#0B624C]">{service.status === "configured" ? tr(locale, "Configured from env", "已用环境变量配置") : service.status === "mock" ? tr(locale, "Mock key", "模拟密钥") : tr(locale, "Missing key", "缺少密钥")}</p>
+              <p className="mt-1 text-[13px] text-[#5E6B65]">{service.id === "buffer" ? tr(locale, "Posts to client socials", "发到客户社交账号") : tr(locale, "Design account", "设计账号")}</p>
+              <p className="mt-2 text-[13px] text-[#0F6B4F]">{service.status === "configured" ? tr(locale, "Configured from env", "已用环境变量配置") : service.status === "mock" ? tr(locale, "Mock key", "模拟密钥") : tr(locale, "Missing key", "缺少密钥")}</p>
             </li>
           ))}
         </ul>
       </section>
-      <div className="overflow-x-auto rounded-[8px] border border-[#D5E3DD] bg-white">
+      <div className="overflow-x-auto rounded-[8px] border border-[#E4E8E5] bg-white">
         <table className="w-full min-w-[880px] text-left text-sm">
           <thead className="text-muted-foreground">
             <tr>
@@ -87,22 +87,22 @@ export default async function AdminPage({
             {rows.map(({ workspace, loaded, health, drafts }) => {
               const owner = workspace.members.find((member) => member.role === "owner")?.user;
               return (
-                <tr key={workspace.id} className={`border-t border-[#D5E3DD] align-top ${health.health === "churn_risk" ? "border-l-[3px] border-l-[#B45309]" : ""}`}>
+                <tr key={workspace.id} className={`border-t border-[#E4E8E5] align-top ${health.health === "churn_risk" ? "border-l-[3px] border-l-[#B45309]" : ""}`}>
                   <td className="px-4 py-3">
-                    <Link className="font-medium text-[#10251F] no-underline" href={`/admin/workspaces/${workspace.id}`}>{workspace.name}</Link>
-                    <p className="text-[13px] text-[#3D5C54]">{owner?.name} · {owner?.email}</p>
+                    <Link className="font-medium text-[#14201B] no-underline" href={`/admin/workspaces/${workspace.id}`}>{workspace.name}</Link>
+                    <p className="text-[13px] text-[#5E6B65]">{owner?.name} · {owner?.email}</p>
                   </td>
                   <td className="px-3 py-3 text-[13px]">{workspace.planCode}</td>
                   <td className="px-3 py-3">
-                    <span className={`inline-flex h-5 items-center rounded-[4px] border px-1.5 text-[13px] font-medium ${health.health === "churn_risk" ? "border-[#EED6A3] bg-[#FDF6E7] text-[#B45309]" : "border-[#C5E0D4] bg-[#E6F2ED] text-[#0B624C]"}`}>
+                    <span className={`inline-flex h-5 items-center rounded-[4px] border px-1.5 text-[13px] font-medium ${health.health === "churn_risk" ? "border-[#EED6A3] bg-[#FDF6E7] text-[#B45309]" : "border-[#C5E0D4] bg-[#E9F4EE] text-[#0F6B4F]"}`}>
                       {healthLabel(locale, health.health)}
                     </span>
-                    <p className="mt-1 max-w-64 text-[13px] text-[#3D5C54]">{health.signals.join(" · ") || "—"}</p>
+                    <p className="mt-1 max-w-64 text-[13px] text-[#5E6B65]">{health.signals.join(" · ") || "—"}</p>
                   </td>
                   <td className="py-3 pr-3">{loaded.profile.videosThisWeek}/{loaded.profile.videosPerWeekLimit}</td>
                   <td className="py-3 pr-3">{loaded.profile.followerLatest.toLocaleString()}</td>
                   <td className="py-3 pr-3">{loaded.profile.daysSinceLastActivity ?? "—"}d</td>
-                  <td className="py-3 pr-3 text-[13px] text-[#1C453A]">{workspace.integrations.filter((row) => row.status === "connected").map((row) => row.provider).join(", ") || tr(locale, "None", "无")}</td>
+                  <td className="py-3 pr-3 text-[13px] text-[#3F4C46]">{workspace.integrations.filter((row) => row.status === "connected").map((row) => row.provider).join(", ") || tr(locale, "None", "无")}</td>
                   <td className="py-3">{drafts}</td>
                 </tr>
               );
@@ -110,7 +110,7 @@ export default async function AdminPage({
           </tbody>
         </table>
       </div>
-      <section className="mt-6 rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <section className="mt-6 rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="text-[14px] font-semibold">{tr(locale, "Videos generated, 14 days", "近 14 天生成的视频")}</h2>
         <div className="mt-3">
           <BarChart rows={trend} label={tr(locale, "Videos generated per day", "每天生成的视频")} />

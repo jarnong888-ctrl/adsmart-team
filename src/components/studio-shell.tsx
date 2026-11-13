@@ -48,45 +48,48 @@ export async function StudioShell({ children }: { children: React.ReactNode }) {
   const mono = (current?.name || user.name).slice(0, 1).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#F2F6F4] text-[#10251F]">
+    <div className="min-h-screen bg-[#F6F7F5] text-[#14201B]">
       <div className="md:grid md:grid-cols-[232px_1fr]">
-        <aside className="hidden min-h-screen border-r border-[#D5E3DD] bg-white md:flex md:flex-col">
-          <div className="flex h-12 items-center gap-2 px-3">
-            <span className="grid size-5 place-items-center rounded-[4px] bg-[#0B624C] text-[13px] font-semibold text-white">A</span>
-            <span className="text-[14px] font-semibold">Adsmart Team</span>
+        <aside className="hidden min-h-screen border-r border-[#E4E8E5] bg-white md:flex md:flex-col">
+          <div className="flex h-14 items-center gap-2.5 px-4">
+            <span className="grid size-7 place-items-center rounded-[8px] bg-[#0F6B4F] text-[14px] font-semibold text-white">A</span>
+            <span className="text-[15px] font-semibold tracking-[-0.01em]">Adsmart Team</span>
           </div>
           {current ? (
-            <form action={switchWorkspace} className="mx-2 mb-2 flex items-center gap-2 rounded-[6px] border border-[#D5E3DD] px-2 py-1.5">
-              <span className="grid size-6 place-items-center rounded-[6px] border border-[#D5E3DD] bg-[#E7F1EC] text-[13px] font-semibold">{mono}</span>
-              <label className="sr-only" htmlFor="workspaceId">{tr(locale, "Workspace", "工作区")}</label>
-              <select id="workspaceId" name="workspaceId" defaultValue={current.id} className="h-7 min-w-0 flex-1 bg-transparent text-[13px] outline-none">
-                {memberships.map((member) => (
-                  <option key={member.workspaceId} value={member.workspaceId}>{member.workspace.name}</option>
-                ))}
-              </select>
-              <SubmitButton variant="ghost">{tr(locale, "Open", "打开")}</SubmitButton>
+            <form action={switchWorkspace} className="mx-3 mb-1 flex items-center gap-2.5 rounded-[12px] border border-[#E4E8E5] bg-[#FAFBFA] p-2">
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#E9F4EE] text-[13px] font-semibold text-[#0B5A42]">{mono}</span>
+              <div className="min-w-0 flex-1">
+                <label className="sr-only" htmlFor="workspaceId">{tr(locale, "Workspace", "工作区")}</label>
+                <select id="workspaceId" name="workspaceId" defaultValue={current.id} className="h-6 w-full min-w-0 truncate bg-transparent text-[14px] font-medium outline-none">
+                  {memberships.map((member) => (
+                    <option key={member.workspaceId} value={member.workspaceId}>{member.workspace.name}</option>
+                  ))}
+                </select>
+                <p className="text-[12px] leading-tight text-[#5E6B65]">
+                  <span className="nums">{balance}</span> {tr(locale, "credits", "点")} · {llm.mode === "mock" ? tr(locale, "Simulated data", "模拟数据") : tr(locale, "Live model", "实时模型")}
+                </p>
+              </div>
+              <SubmitButton variant="ghost" size="sm">{tr(locale, "Switch", "切换")}</SubmitButton>
             </form>
           ) : null}
-          <p className="px-4 pb-2 text-[13px] text-[#3D5C54]">
-            {current ? `${balance} ${tr(locale, "credits", "点")} · ${llm.mode === "mock" ? tr(locale, "Simulated data", "模拟数据") : tr(locale, "Live model", "实时模型")}` : ""}
-          </p>
-          <nav className="flex flex-1 flex-col gap-0.5 px-2" aria-label="Studio">
+          <div className="h-3" />
+          <nav className="flex flex-1 flex-col gap-0.5 px-3 pb-4" aria-label="Studio">
             <DeskNav items={NAV.map((item) => ({ href: item.href, label: tr(locale, item.en, item.zh), icon: item.icon, badge: item.badge === "posts" ? pendingPosts : 0 }))} />
-            <div className="my-2 border-t border-[#D5E3DD]" />
+            <div className="mx-1 my-3 border-t border-[#E4E8E5]" />
             <DeskNav items={FOOT.map((item) => ({ href: item.href, label: tr(locale, item.en, item.zh), icon: item.icon }))} />
           </nav>
         </aside>
         <div className="min-w-0">
-          <header className="sticky top-0 z-20 flex h-12 items-center justify-between gap-3 border-b border-[#D5E3DD] bg-white px-4">
+          <header className="sticky top-0 z-20 flex h-14 items-center justify-between gap-3 border-b border-[#E4E8E5] bg-white/85 px-4 backdrop-blur md:px-8">
             <div className="flex min-w-0 items-center gap-2">
               <MobileNav items={items} label={tr(locale, "Menu", "菜单")} />
-              <span className="grid size-5 place-items-center rounded-[4px] bg-[#0B624C] text-[13px] font-semibold text-white md:hidden">A</span>
+              <span className="grid size-5 place-items-center rounded-[4px] bg-[#0F6B4F] text-[13px] font-semibold text-white md:hidden">A</span>
               <ShellTop locale={locale} />
             </div>
             <div className="flex items-center gap-2">
               <LocaleSwitch locale={locale} />
-              <span className="hidden items-center gap-1.5 text-[13px] text-[#1C453A] sm:flex">
-                <span className="grid size-6 place-items-center rounded-[6px] border border-[#D5E3DD] bg-[#E7F1EC] text-[13px] font-semibold">{user.name.slice(0, 1)}</span>
+              <span className="hidden items-center gap-1.5 text-[13px] text-[#3F4C46] sm:flex">
+                <span className="grid size-7 place-items-center rounded-full bg-[#E9F4EE] text-[12px] font-semibold text-[#0B5A42]">{user.name.slice(0, 1)}</span>
                 {user.name}
               </span>
               <form action={logout}>
@@ -94,7 +97,7 @@ export async function StudioShell({ children }: { children: React.ReactNode }) {
               </form>
             </div>
           </header>
-          <main className="px-4 py-6 md:px-7 md:py-6">{children}</main>
+          <main className="mx-auto w-full max-w-[1400px] px-4 py-6 md:px-8 md:py-8">{children}</main>
         </div>
       </div>
     </div>

@@ -50,13 +50,13 @@ export function AnalyticsDashboard({
           {title}
           <InfoTip text={lede} />
         </h1>
-        <div className="flex h-8 shrink-0 rounded-[6px] border border-[#D5E3DD] bg-white p-0.5" role="group" aria-label={tr(locale, "Date range", "时间范围")}>
+        <div className="flex h-8 shrink-0 rounded-[6px] border border-[#E4E8E5] bg-white p-0.5" role="group" aria-label={tr(locale, "Date range", "时间范围")}>
           {ranges.map((days) => (
             <Link
               key={days}
               href={`${hrefBase}?range=${days}`}
               aria-current={report.range === days ? "true" : undefined}
-              className={`inline-flex h-7 items-center rounded-[6px] px-2.5 text-[13px] font-bold ${report.range === days ? "bg-[#0B624C] text-white" : "text-[#3D5C54] hover:bg-[#E6F2ED] hover:text-[#0B624C]"}`}
+              className={`inline-flex h-7 items-center rounded-[6px] px-2.5 text-[13px] font-semibold ${report.range === days ? "bg-[#0F6B4F] text-white" : "text-[#5E6B65] hover:bg-[#E9F4EE] hover:text-[#0F6B4F]"}`}
             >
               {days}{tr(locale, "d", "天")}
             </Link>
@@ -64,25 +64,25 @@ export function AnalyticsDashboard({
         </div>
       </header>
 
-      <section className="overflow-hidden rounded-[8px] border border-[#D5E3DD] bg-white">
+      <section className="overflow-hidden rounded-[8px] border border-[#E4E8E5] bg-white">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
           {kpis.map((kpi) => (
-            <article key={kpi.label} className="border-r border-b border-[#D5E3DD] px-4 py-4 xl:border-b-0">
-              <p className="inline-flex items-center gap-1 text-[13px] font-medium text-[#3D5C54]">
+            <article key={kpi.label} className="border-r border-b border-[#E4E8E5] px-4 py-4 xl:border-b-0">
+              <p className="inline-flex items-center gap-1 text-[13px] font-medium text-[#5E6B65]">
                 {kpi.label}
                 <InfoTip text={kpi.hint} />
               </p>
-              <p className={`nums mt-2 text-[28px] leading-none font-semibold ${kpi.warn ? "text-[#B45309]" : "text-[#10251F]"}`}>{kpi.value}</p>
+              <p className={`nums mt-2 text-[28px] leading-none font-semibold ${kpi.warn ? "text-[#B45309]" : "text-[#14201B]"}`}>{kpi.value}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mt-4 rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <section className="mt-4 rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="type-h2">{tr(locale, "Followers vs goal", "粉丝与目标")}</h2>
-          <p className="inline-flex items-center gap-3 text-[13px] font-medium text-[#3D5C54]">
-            <span className="inline-flex items-center gap-1"><span className="inline-block h-0.5 w-4 bg-[#0B624C]" />{tr(locale, "Recorded", "记录")}</span>
+          <p className="inline-flex items-center gap-3 text-[13px] font-medium text-[#5E6B65]">
+            <span className="inline-flex items-center gap-1"><span className="inline-block h-0.5 w-4 bg-[#0F6B4F]" />{tr(locale, "Recorded", "记录")}</span>
             <span className="inline-flex items-center gap-1"><span className="inline-block h-0 w-4 border-t border-dashed border-[#5E7D74]" />{tr(locale, "Goal", "目标")}</span>
           </p>
         </div>
@@ -90,10 +90,10 @@ export function AnalyticsDashboard({
       </section>
 
       <section className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-        <div className="rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-3">
+        <div className="rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-3">
           <h2 className="text-[13px] font-semibold">{tr(locale, "By platform", "按平台")}</h2>
           <table className="mt-2 w-full text-left text-[13px]">
-            <thead className="text-[13px] text-[#3D5C54]">
+            <thead className="text-[13px] text-[#5E6B65]">
               <tr>
                 <th className="py-1 font-medium">{tr(locale, "Platform", "平台")}</th>
                 <th className="py-1 text-right font-medium">{tr(locale, "Followers", "粉丝")}</th>
@@ -103,7 +103,7 @@ export function AnalyticsDashboard({
             </thead>
             <tbody>
               {report.platforms.map((row) => (
-                <tr key={row.platform} className="border-t border-[#D5E3DD]">
+                <tr key={row.platform} className="border-t border-[#E4E8E5]">
                   <td className="py-2 font-medium">{NAMES[row.platform] ?? row.platform}</td>
                   <td className="nums py-2 text-right">{row.followers.toLocaleString()}</td>
                   <td className="nums py-2 text-right">{row.views.toLocaleString()}</td>
@@ -113,29 +113,29 @@ export function AnalyticsDashboard({
             </tbody>
           </table>
         </div>
-        <div className="rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-3">
+        <div className="rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-3">
           <h2 className="text-[13px] font-semibold">{tr(locale, "Content mix", "内容配比")}</h2>
           <div className="mt-4">
             <SplitBar
               label={tr(locale, "Content mix by views", "按播放的内容配比")}
               parts={[
                 { label: tr(locale, "Mindset", "心态"), value: report.mix.find((row) => row.pillar === "mindset")?.views ?? 0, className: "bg-[#0C2E28]" },
-                { label: tr(locale, "Practical", "实操"), value: report.mix.find((row) => row.pillar === "practical")?.views ?? 0, className: "bg-[#0B624C]" },
-                { label: tr(locale, "Trends", "趋势"), value: report.mix.find((row) => row.pillar === "trends")?.views ?? 0, className: "bg-[#167e6c]" },
+                { label: tr(locale, "Practical", "实操"), value: report.mix.find((row) => row.pillar === "practical")?.views ?? 0, className: "bg-[#0F6B4F]" },
+                { label: tr(locale, "Trends", "趋势"), value: report.mix.find((row) => row.pillar === "trends")?.views ?? 0, className: "bg-[#1A7A5E]" },
               ]}
             />
           </div>
         </div>
       </section>
 
-      <section className="mt-4 rounded-[8px] border border-[#D5E3DD] bg-white px-4 py-3">
+      <section className="mt-4 rounded-[8px] border border-[#E4E8E5] bg-white px-4 py-3">
         <h2 className="text-[13px] font-semibold">{tr(locale, "Top posts", "表现最好")}</h2>
         {report.topPosts.length === 0 ? (
-          <p className="mt-3 text-[13px] text-[#3D5C54]">{tr(locale, "No views yet.", "还没有播放。")}</p>
+          <p className="mt-3 text-[13px] text-[#5E6B65]">{tr(locale, "No views yet.", "还没有播放。")}</p>
         ) : (
           <div className="mt-2 overflow-x-auto">
             <table className="w-full min-w-[480px] text-left text-[13px]">
-              <thead className="text-[13px] text-[#3D5C54]">
+              <thead className="text-[13px] text-[#5E6B65]">
                 <tr>
                   <th className="py-1 font-medium">{tr(locale, "Post", "内容")}</th>
                   <th className="py-1 font-medium">{tr(locale, "Pillar", "栏目")}</th>
@@ -144,12 +144,12 @@ export function AnalyticsDashboard({
               </thead>
               <tbody>
                 {report.topPosts.map((post) => (
-                  <tr key={post.id} className="border-t border-[#D5E3DD]">
+                  <tr key={post.id} className="border-t border-[#E4E8E5]">
                     <td className="py-2 font-medium">
                       {post.title}
-                      {post.workspaceName ? <span className="mt-0.5 block text-[13px] text-[#3D5C54]">{post.workspaceName}</span> : null}
+                      {post.workspaceName ? <span className="mt-0.5 block text-[13px] text-[#5E6B65]">{post.workspaceName}</span> : null}
                     </td>
-                    <td className="py-2 text-[#1C453A]">{post.pillar}</td>
+                    <td className="py-2 text-[#3F4C46]">{post.pillar}</td>
                     <td className="nums py-2 text-right">{post.views.toLocaleString()}</td>
                   </tr>
                 ))}
@@ -172,7 +172,7 @@ function TrendChart({
   locale: Locale;
 }) {
   if (trend.length < 2) {
-    return <p className="mt-4 text-[16px] text-[#3D5C54]">{label}</p>;
+    return <p className="mt-4 text-[16px] text-[#5E6B65]">{label}</p>;
   }
   const width = 720;
   const height = 280;
@@ -194,13 +194,13 @@ function TrendChart({
       <svg viewBox={`0 0 ${width} ${height}`} className="mt-2 h-72 w-full" role="img" aria-label={label}>
         {Array.from({ length: ticks + 1 }, (_, index) => {
           const yy = pad + ((height - pad * 2) / ticks) * index;
-          return <line key={yy} x1={pad} x2={width - pad} y1={yy} y2={yy} stroke="#D5E3DD" strokeWidth="1" />;
+          return <line key={yy} x1={pad} x2={width - pad} y1={yy} y2={yy} stroke="#E4E8E5" strokeWidth="1" />;
         })}
         {goalInFrame ? <polyline fill="none" stroke="#5E7D74" strokeDasharray="4 4" strokeWidth="1.5" points={line("goal")} /> : null}
-        <polyline fill="none" stroke="#0B624C" strokeWidth="2.25" points={line("followers")} />
+        <polyline fill="none" stroke="#0F6B4F" strokeWidth="2.25" points={line("followers")} />
       </svg>
       {goalInFrame ? null : (
-        <p className="text-[13px] font-medium text-[#3D5C54]">
+        <p className="text-[13px] font-medium text-[#5E6B65]">
           {tr(locale, `Goal ${trend.at(-1)?.goal.toLocaleString()} is above this scale. Recorded ${trend.at(-1)?.followers.toLocaleString()}.`, `目标 ${trend.at(-1)?.goal.toLocaleString()} 高于刻度。记录 ${trend.at(-1)?.followers.toLocaleString()}。`)}
         </p>
       )}

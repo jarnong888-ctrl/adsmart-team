@@ -61,22 +61,22 @@ export default async function AdminWorkspacePage({
         <Badge variant={health.health === "churn_risk" ? "destructive" : "outline"}>{healthLabel(locale, health.health)}</Badge>
         <span className="text-sm text-muted-foreground">{health.signals.join(" · ") || tr(locale, "No signals", "没有信号")}</span>
       </div>
-      <section className="mb-6 rounded-[8px] border border-[#D5E3DD] bg-white p-4">
+      <section className="mb-6 rounded-[8px] border border-[#E4E8E5] bg-white p-4">
         <h2 className="text-[14px] font-semibold">{tr(locale, "Credits", "点数")}</h2>
         <p className="mt-1 text-[22px] font-semibold tabular-nums">{wallet.balance}</p>
         <form action={adjustWorkspaceCredits} className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end">
           <input type="hidden" name="workspaceId" value={workspace.id} />
           <label className="text-[13px]">
             {tr(locale, "Adjust by", "调整")}
-            <input name="delta" type="number" required className="mt-1 block h-10 w-28 rounded-[6px] border border-[#C5D9D1] px-3" placeholder="+20" />
+            <input name="delta" type="number" required className="mt-1 block h-10 w-28 rounded-[6px] border border-[#DCE1DE] px-3" placeholder="+20" />
           </label>
           <label className="min-w-0 flex-1 text-[13px]">
             {tr(locale, "Note for the audit log", "写进审计记录的原因")}
-            <input name="note" required minLength={3} className="mt-1 block h-10 w-full rounded-[6px] border border-[#C5D9D1] px-3" />
+            <input name="note" required minLength={3} className="mt-1 block h-10 w-full rounded-[6px] border border-[#DCE1DE] px-3" />
           </label>
           <SubmitButton>{tr(locale, "Apply", "确认")}</SubmitButton>
         </form>
-        <ul className="mt-3 space-y-1 text-[13px] text-[#3D5C54]">
+        <ul className="mt-3 space-y-1 text-[13px] text-[#5E6B65]">
           {ledger.map((row) => (
             <li key={row.id}>{row.delta > 0 ? "+" : ""}{row.delta} · {row.kind} · {row.note || row.action}</li>
           ))}
@@ -95,7 +95,7 @@ export default async function AdminWorkspacePage({
             const included = loaded.profile.planFeatures.includes(feature);
             const used = loaded.profile.featuresUsed30.includes(feature);
             return (
-              <li key={feature} className={`rounded-[4px] border px-2 py-1 text-[13px] font-medium ${used ? "border-[#C5E0D4] bg-[#E6F2ED] text-[#0B624C]" : included ? "border-[#EED6A3] bg-[#FDF6E7] text-[#B45309]" : "border-[#D5E3DD] text-[#3D5C54]"}`}>
+              <li key={feature} className={`rounded-[4px] border px-2 py-1 text-[13px] font-medium ${used ? "border-[#C5E0D4] bg-[#E9F4EE] text-[#0F6B4F]" : included ? "border-[#EED6A3] bg-[#FDF6E7] text-[#B45309]" : "border-[#E4E8E5] text-[#5E6B65]"}`}>
                 {feature} {included ? "" : tr(locale, "(not in plan)", "（方案不含）")} {used ? "" : included ? tr(locale, "unused", "未用") : ""}
               </li>
             );

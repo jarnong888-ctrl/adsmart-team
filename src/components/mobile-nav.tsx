@@ -23,7 +23,7 @@ export function MobileNav({
     <div className="md:hidden">
       <button
         type="button"
-        className="h-11 rounded-[6px] border border-[#D5E3DD] bg-white px-3 text-[13px]"
+        className="h-11 rounded-[6px] border border-[#E4E8E5] bg-white px-3 text-[13px]"
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={() => setOpen(true)}
@@ -31,16 +31,16 @@ export function MobileNav({
         {label}
       </button>
       {open ? (
-        <div className="fixed inset-0 z-50 bg-[#10251F]/20" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-[#14201B]/20" onClick={() => setOpen(false)}>
           <div
             role="dialog"
             aria-label={label}
-            className="absolute inset-x-3 top-14 max-h-[80vh] overflow-y-auto rounded-[8px] border border-[#D5E3DD] bg-white p-3"
+            className="absolute inset-x-3 top-14 max-h-[80vh] overflow-y-auto rounded-[8px] border border-[#E4E8E5] bg-white p-3"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-2 flex items-center justify-between">
               <p className="text-[14px] font-medium">{label}</p>
-              <button type="button" className="h-8 px-2 text-[13px] text-[#3D5C54]" onClick={() => setOpen(false)} aria-label={label}>
+              <button type="button" className="h-8 px-2 text-[13px] text-[#5E6B65]" onClick={() => setOpen(false)} aria-label={label}>
                 ×
               </button>
             </div>
@@ -52,11 +52,11 @@ export function MobileNav({
                     key={item.href}
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`flex min-h-11 items-center justify-between rounded-[6px] px-3 text-[14px] font-bold ${active ? "bg-[#E6F2ED] text-[#0B624C]" : "text-[#1C453A]"}`}
+                    className={`flex min-h-11 items-center justify-between rounded-[6px] px-3 text-[14px] font-semibold ${active ? "bg-[#E9F4EE] text-[#0F6B4F]" : "text-[#3F4C46]"}`}
                     onClick={() => setOpen(false)}
                   >
                     <span>{item.label}</span>
-                    {item.badge ? <span className="grid h-4 min-w-4 place-items-center rounded-[4px] bg-[#0B624C] px-1 text-[13px] text-white">{item.badge}</span> : null}
+                    {item.badge ? <span className="grid h-4 min-w-4 place-items-center rounded-[4px] bg-[#0F6B4F] px-1 text-[13px] text-white">{item.badge}</span> : null}
                   </Link>
                 );
               })}
