@@ -1,0 +1,58 @@
+{
+  "name": "adsmart-team",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "node scripts/ensure-env.mjs",
+    "dev": "next dev --hostname 0.0.0.0 --port 43123",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0 --port 43123",
+    "lint": "eslint",
+    "test": "vitest run",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:analytics": "tsx scripts/ensure-analytics-once.ts",
+    "presetup": "node scripts/ensure-env.mjs",
+    "setup": "prisma generate && prisma db push && tsx prisma/seed.ts",
+    "predemo": "node scripts/ensure-env.mjs",
+    "demo": "prisma generate && prisma db push && tsx prisma/seed.ts && next dev --hostname 0.0.0.0 --port 43123",
+    "pretest": "prisma generate && DATABASE_URL=file:./prisma/test.db prisma db push --skip-generate --accept-data-loss"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.5.2",
+    "exceljs": "^4.4.0",
+    "js-tiktoken": "^1.0.20",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.6",
+    "next-themes": "^0.4.6",
+    "prisma": "^6.19.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
+    "shadcn": "^4.23.0",
+    "sonner": "^2.0.8",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.3",
+    "tsx": "^4.20.6",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  }
+}

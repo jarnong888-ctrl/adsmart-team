@@ -1,0 +1,361 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(cuid())
+  email             String            @unique
+  name              String
+  passwordHash      String
+  platformRole      String            @default("client")
+  locale            String            @default("en")
+  analyticsConsent  Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  memberships       WorkspaceMember[]
+  sessions          Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Workspace {
+  id                String              @id @default(cuid())
+  name              String
+  slug              String              @unique
+  industry          String              @default("")
+  audience          String              @default("")
+  offers            String              @default("")
+  tone              String              @default("")
+  primaryLanguage   String              @default("zh")
+  handle            String              @default("")
+  platforms         String              @default("[\"tiktok\",\"instagram\",\"facebook\"]")
+  goalFollowers     Int                 @default(10000)
+  goalPlatform      String              @default("tiktok")
+  goalHorizonDays   Int                 @default(182)
+  baselineFollowers Int                 @default(0)
+  baselineOn        String              @default("")
+  postingCapacity   Int                 @default(12)
+  mixMindset        Int                 @default(40)
+  mixPractical      Int                 @default(40)
+  mixTrends         Int                 @default(20)
+  softSellRatio     Int                 @default(30)
+  planCode          String              @default("starter")
+  analyticsConsent  Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  members           WorkspaceMember[]
+  plans             ContentPlan[]
+  items             ContentItem[]
+  schedule          ScheduleEntry[]
+  snapshots         AnalyticsSnapshot[]
+  competitors       Competitor[]
+  activities        Activity[]
+  usageEvents       UsageEvent[]
+  recommendations   Recommendation[]
+  wallet            CreditWallet?
+  creditLedger      CreditLedger[]
+  payments          Payment[]
+  integrations      Integration[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  role        String    @default("owner")
+  userId      String
+  workspaceId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model ContentPlan {
+  id            String        @id @default(cuid())
+  workspaceId   String
+  weekStart     String
+  title         String
+  rationale     String
+  status        String        @default("pending_approval")
+  capacity      Int
+  mixMindset    Int
+  mixPractical  Int
+  mixTrends     Int
+  softSellRatio Int
+  approvedAt    DateTime?
+  approvedById  String        @default("")
+  createdAt     DateTime      @default(now())
+  workspace     Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  items         ContentItem[]
+
+  @@unique([workspaceId, weekStart])
+  @@index([workspaceId, status])
+}
+
+model ContentItem {
+  id               String          @id @default(cuid())
+  workspaceId      String
+  planId           String
+  dayIndex         Int
+  slot             Int
+  pillar           String
+  title            String
+  angle            String
+  hook             String
+  cta              String
+  commentKeyword   String
+  softSell         Boolean         @default(false)
+  language         String          @default("zh")
+  platforms        String
+  status           String          @default("planned")
+  performanceViews Int             @default(0)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  workspace        Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  plan             ContentPlan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  script           Script?
+  repurpose        RepurposePack?
+  brief            EditBrief?
+  schedule         ScheduleEntry[]
+
+  @@index([workspaceId, status])
+  @@index([planId])
+}
+
+model Script {
+  id             String      @id @default(cuid())
+  contentItemId  String      @unique
+  language       String
+  hook           String
+  body           String
+  commentKeyword String
+  sources        String
+  flags          String
+  durationSec    Int
+  approvedAt     DateTime?
+  approvedById   String      @default("")
+  factCheckAcknowledgedAt DateTime?
+  createdAt      DateTime    @default(now())
+  contentItem    ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+}
+
+model RepurposePack {
+  id              String      @id @default(cuid())
+  contentItemId   String      @unique
+  igCaption       String
+  carouselOutline String
+  facebookPost    String
+  sizeNotes       String
+  createdAt       DateTime    @default(now())
+  contentItem     ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+}
+
+model EditBrief {
+  id            String      @id @default(cuid())
+  contentItemId String      @unique
+  cuts          String
+  captions      String
+  aspectRatios  String
+  musicNote     String
+  rawVideoName  String      @default("")
+  createdAt     DateTime    @default(now())
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+}
+
+model ScheduleEntry {
+  id            String      @id @default(cuid())
+  workspaceId   String
+  contentItemId String
+  platform      String
+  scheduledFor  DateTime
+  caption       String
+  status        String      @default("pending_approval")
+  approvedAt    DateTime?
+  approvedById  String      @default("")
+  publisherKey  String      @default("buffer")
+  externalId    String      @default("")
+  publishResult String      @default("")
+  createdAt     DateTime    @default(now())
+  workspace     Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, status])
+}
+
+model AnalyticsSnapshot {
+  id          String    @id @default(cuid())
+  workspaceId String
+  platform    String
+  followers      Int
+  views          Int       @default(0)
+  likes          Int       @default(0)
+  comments       Int       @default(0)
+  shares         Int       @default(0)
+  publishedPosts Int       @default(0)
+  recordedOn     String
+  note        String    @default("")
+  source      String    @default("manual")
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, platform])
+}
+
+model Competitor {
+  id          String    @id @default(cuid())
+  workspaceId String
+  platform    String
+  handle      String
+  displayName String
+  notes       String    @default("")
+  watchOnly   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id          String    @id @default(cuid())
+  workspaceId String
+  role        String
+  code        String
+  detail      String    @default("")
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+}
+
+model UsageEvent {
+  id          String    @id @default(cuid())
+  workspaceId String
+  actorUserId String    @default("")
+  kind        String
+  feature     String    @default("")
+  platform    String    @default("")
+  quantity    Int       @default(1)
+  meta        String    @default("{}")
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@index([kind])
+}
+
+model Recommendation {
+  id              String    @id @default(cuid())
+  workspaceId     String
+  status          String    @default("draft")
+  category        String
+  code            String
+  severity        String    @default("info")
+  title           String
+  body            String
+  titleAlt        String    @default("")
+  bodyAlt         String    @default("")
+  rationale       String
+  primaryLocale   String    @default("zh")
+  source          String    @default("rules")
+  editedTitle     String    @default("")
+  editedBody      String    @default("")
+  editedTitleAlt  String    @default("")
+  editedBodyAlt   String    @default("")
+  reviewedById    String    @default("")
+  sentAt          DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, status])
+}
+
+model CreditWallet {
+  id          String    @id @default(cuid())
+  workspaceId String    @unique
+  balance     Int       @default(0)
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model CreditLedger {
+  id           String    @id @default(cuid())
+  workspaceId  String
+  delta        Int
+  balanceAfter Int
+  kind         String
+  action       String    @default("")
+  packageCode  String    @default("")
+  note         String    @default("")
+  actorUserId  String    @default("")
+  paymentId    String    @default("")
+  createdAt    DateTime  @default(now())
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@index([kind, action])
+}
+
+model CreditPackage {
+  code          String  @id
+  nameEn        String
+  nameZh        String
+  blurbEn       String
+  blurbZh       String
+  priceMyrCents Int
+  credits       Int
+  cadence       String
+  active        Boolean @default(true)
+  sort          Int     @default(0)
+}
+
+model CreditCost {
+  action  String @id
+  credits Int
+  labelEn String
+  labelZh String
+}
+
+model Payment {
+  id             String    @id @default(cuid())
+  workspaceId    String
+  provider       String
+  status         String
+  amountMyrCents Int
+  credits        Int
+  packageCode    String
+  externalId     String    @default("")
+  detail         String    @default("")
+  createdAt      DateTime  @default(now())
+  workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@index([status])
+}
+
+model Integration {
+  id           String    @id @default(cuid())
+  workspaceId  String
+  provider     String
+  status       String    @default("not_connected")
+  accountLabel String    @default("")
+  scopes       String    @default("[]")
+  tokenCipher  String    @default("")
+  expiresAt    DateTime?
+  lastSyncAt   DateTime?
+  settings     String    @default("{}")
+  lastError    String    @default("")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, provider])
+  @@index([workspaceId])
+}
