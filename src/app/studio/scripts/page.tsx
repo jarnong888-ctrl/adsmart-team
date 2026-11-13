@@ -7,6 +7,7 @@ import { StatusBadge, STATUS_TONE } from "@/components/status-badge";
 import { SubmitButton } from "@/components/submit-button";
 import { prisma } from "@/lib/db";
 import { addDays } from "@/lib/dates";
+import { dayParts, LANG_NAME, PLATFORM_NAME, weekLabel } from "@/lib/display";
 import { pillarLabel, statusLabel, tr, type Locale } from "@/lib/i18n";
 import { requiresFactCheckAck } from "@/lib/pipeline";
 import { parsePlatforms } from "@/lib/platforms";
@@ -38,30 +39,6 @@ const STEP_OF: Record<string, number> = {
   schedule_approved: 5,
   published: 6,
 };
-
-const PLATFORM_NAME: Record<string, string> = { tiktok: "TikTok", instagram: "Instagram", facebook: "Facebook" };
-const LANG_NAME: Record<string, string> = { zh: "中文", en: "EN", ms: "BM" };
-
-function dayParts(iso: string, locale: Locale) {
-  const [y, m, d] = iso.split("-").map(Number);
-  const date = new Date(Date.UTC(y, m - 1, d));
-  const loc = locale === "zh" ? "zh-CN" : "en-GB";
-  return {
-    dow: new Intl.DateTimeFormat(loc, { weekday: "short", timeZone: "UTC" }).format(date),
-    day: d,
-    long: new Intl.DateTimeFormat(loc, { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" }).format(date),
-  };
-}
-
-function weekLabel(weekStart: string, locale: Locale) {
-  const [y, m, d] = weekStart.split("-").map(Number);
-  const start = new Date(Date.UTC(y, m - 1, d));
-  if (locale === "zh") return `${y}年${m}月${d}日 这一周`;
-  const end = new Date(Date.UTC(y, m - 1, d + 6));
-  const fmt = (date: Date, withYear: boolean) =>
-    new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", ...(withYear ? { year: "numeric" } : {}), timeZone: "UTC" }).format(date);
-  return `${fmt(start, false)} – ${fmt(end, true)}`;
-}
 
 export default async function ScriptsPage({ searchParams }: { searchParams: Promise<Search> }) {
   const { user, locale, workspace } = await studioContext();

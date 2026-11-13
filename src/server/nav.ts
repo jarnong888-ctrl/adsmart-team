@@ -8,15 +8,17 @@ export function go(path: string, code?: { error?: string; notice?: string }): ne
   redirect(query ? `${path}?${query}` : path);
 }
 
+const RETURNABLE = new Set(["/studio/scripts", "/studio/repurpose", "/studio/editor", "/studio/pipeline"]);
+
 /**
  * Redirect to the page the form came from when it is a known studio list
  * (Scripts), otherwise to the fallback. Only same-app paths are accepted.
  */
 export function goBack(formData: FormData, fallback: string, code?: { error?: string; notice?: string }): never {
   const raw = String(formData.get("returnTo") ?? "");
-  if (!raw.startsWith("/studio/scripts")) go(fallback, code);
+  if (!raw.startsWith("/studio/")) go(fallback, code);
   const url = new URL(raw, "http://local");
-  if (url.pathname !== "/studio/scripts") go(fallback, code);
+  if (url.origin !== "http://local" || !RETURNABLE.has(url.pathname)) go(fallback, code);
   url.searchParams.delete("error");
   url.searchParams.delete("notice");
   if (code?.error) url.searchParams.set("error", code.error);
