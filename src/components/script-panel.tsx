@@ -20,7 +20,7 @@ function blocksOf(body: string) {
       const lines = chunk.split("\n");
       const title = lines[0] ?? "";
       const head = title.match(/^\[([^\]]+)\]\s*(.*)$/);
-      const cues = lines.slice(1).map((line) => {
+      const cues = lines.slice(1).filter((line) => line.trim() !== "").map((line) => {
         const match = line.match(/^(画面|字幕|口播|Visual|Sari kata|Tutur|Subtitle|Spoken)[:：]\s*(.*)$/);
         if (!match) return { kind: "note", text: line };
         const key = match[1];

@@ -279,6 +279,21 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                   <Stepper locale={locale} step={STEP_OF[selected.status] ?? 0} />
                 </div>
 
+                <NextStep
+                  locale={locale}
+                  item={{
+                    id: selected.id,
+                    status: selected.status,
+                    language: selected.language,
+                    scriptApproved: Boolean(selected.script?.approvedAt),
+                    needsAck: selected.script ? requiresFactCheckAck(selected.script.flags, selected.script.body) : false,
+                    hasScript: Boolean(selected.script),
+                  }}
+                  canApprove={canApprove}
+                  returnTo={returnTo}
+                />
+
+
                 <div className="space-y-5 px-6 py-5">
                   <dl className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[12px] bg-[#F6F7F5] px-4 py-3.5">
@@ -317,19 +332,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                   </div>
                 </div>
 
-                <NextStep
-                  locale={locale}
-                  item={{
-                    id: selected.id,
-                    status: selected.status,
-                    language: selected.language,
-                    scriptApproved: Boolean(selected.script?.approvedAt),
-                    needsAck: selected.script ? requiresFactCheckAck(selected.script.flags, selected.script.body) : false,
-                    hasScript: Boolean(selected.script),
-                  }}
-                  canApprove={canApprove}
-                  returnTo={returnTo}
-                />
+
               </section>
             ) : (
               <section className="hidden rounded-[16px] border border-dashed border-[#DCE1DE] px-6 py-16 text-center text-[14px] text-[#5E6B65] lg:block">
@@ -348,17 +351,17 @@ function Stepper({ locale, step }: { locale: Locale; step: number }) {
     tr(locale, "Week", "周计划"),
     tr(locale, "Script", "脚本"),
     tr(locale, "Formats", "改写"),
-    tr(locale, "Edit brief", "剪辑单"),
-    tr(locale, "Post approval", "批准发布"),
+    tr(locale, "Brief", "剪辑单"),
+    tr(locale, "Approval", "批准发布"),
     tr(locale, "Posted", "已发布"),
   ];
   return (
-    <ol aria-label={tr(locale, "Progress", "进度")} className="flex flex-wrap items-center gap-x-2 gap-y-2 pt-1">
+    <ol aria-label={tr(locale, "Progress", "进度")} className="flex flex-wrap items-center gap-x-1.5 gap-y-2 pt-1">
       {steps.map((label, index) => {
         const done = index < step;
         const current = index === step;
         return (
-          <li key={label} className="flex items-center gap-2" aria-current={current ? "step" : undefined}>
+          <li key={label} className="flex items-center gap-1.5" aria-current={current ? "step" : undefined}>
             <span
               className={`nums grid size-[22px] place-items-center rounded-full border-[1.5px] text-[11px] ${done ? "border-[#0F6B4F] bg-[#0F6B4F] text-white" : current ? "border-[#0F6B4F] bg-white text-[#0F6B4F]" : "border-[#DCE1DE] bg-white text-[#7A8781]"}`}
             >
@@ -370,11 +373,11 @@ function Stepper({ locale, step }: { locale: Locale; step: number }) {
                 index + 1
               )}
             </span>
-            <span className={`text-[13px] ${current ? "font-semibold text-[#14201B]" : done ? "text-[#14201B]" : "text-[#7A8781]"}`}>
+            <span className={`text-[12.5px] ${current ? "font-semibold text-[#14201B]" : done ? "text-[#14201B]" : "text-[#7A8781]"}`}>
               {label}
               {done ? <span className="sr-only"> ({tr(locale, "done", "已完成")})</span> : null}
             </span>
-            {index < steps.length - 1 ? <span aria-hidden className={`h-[1.5px] w-4 ${index < step ? "bg-[#0F6B4F]" : "bg-[#DCE1DE]"}`} /> : null}
+            {index < steps.length - 1 ? <span aria-hidden className={`h-[1.5px] w-3 ${index < step ? "bg-[#0F6B4F]" : "bg-[#DCE1DE]"}`} /> : null}
           </li>
         );
       })}
@@ -471,7 +474,7 @@ function NextStep({
   }
 
   return (
-    <div className="mt-auto space-y-3 rounded-b-[16px] border-t border-[#EEF1EF] bg-[#FAFBFA] px-6 pt-4 pb-5">
+    <div className="space-y-3 border-b border-[#EEF1EF] bg-[#FAFBFA] px-6 py-4">
       <p className="text-[13.5px] leading-[1.55] text-[#3F4C46]">{hint}</p>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

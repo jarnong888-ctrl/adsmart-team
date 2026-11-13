@@ -56,20 +56,20 @@ export async function StudioShell({ children }: { children: React.ReactNode }) {
             <span className="text-[15px] font-semibold tracking-[-0.01em]">Adsmart Team</span>
           </div>
           {current ? (
-            <form action={switchWorkspace} className="mx-3 mb-1 flex items-center gap-2.5 rounded-[12px] border border-[#E4E8E5] bg-[#FAFBFA] p-2">
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#E9F4EE] text-[13px] font-semibold text-[#0B5A42]">{mono}</span>
-              <div className="min-w-0 flex-1">
+            <form action={switchWorkspace} className="mx-3 mb-1 rounded-[12px] border border-[#E4E8E5] bg-[#FAFBFA] p-2.5">
+              <div className="flex items-center gap-2">
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#E9F4EE] text-[12px] font-semibold text-[#0B5A42]">{mono}</span>
                 <label className="sr-only" htmlFor="workspaceId">{tr(locale, "Workspace", "工作区")}</label>
-                <select id="workspaceId" name="workspaceId" defaultValue={current.id} className="h-6 w-full min-w-0 truncate bg-transparent text-[14px] font-medium outline-none">
+                <select id="workspaceId" name="workspaceId" defaultValue={current.id} className="h-7 min-w-0 flex-1 truncate bg-transparent text-[14px] font-medium outline-none">
                   {memberships.map((member) => (
                     <option key={member.workspaceId} value={member.workspaceId}>{member.workspace.name}</option>
                   ))}
                 </select>
-                <p className="text-[12px] leading-tight text-[#5E6B65]">
-                  <span className="nums">{balance}</span> {tr(locale, "credits", "点")} · {llm.mode === "mock" ? tr(locale, "Simulated data", "模拟数据") : tr(locale, "Live model", "实时模型")}
-                </p>
+                {memberships.length > 1 ? <SubmitButton variant="ghost" size="sm">{tr(locale, "Switch", "切换")}</SubmitButton> : null}
               </div>
-              <SubmitButton variant="ghost" size="sm">{tr(locale, "Switch", "切换")}</SubmitButton>
+              <p className="mt-1.5 text-[12px] leading-tight text-[#5E6B65]">
+                <span className="nums text-[#14201B]">{balance}</span> {tr(locale, "credits", "点")} · {llm.mode === "mock" ? tr(locale, "Simulated data", "模拟数据") : tr(locale, "Live model", "实时模型")}
+              </p>
             </form>
           ) : null}
           <div className="h-3" />
